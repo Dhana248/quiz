@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz Game</title>
+<style>
+body{
+font-family:Arial;
+background:#667eea;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center
+}
+.box{
+background:white;
+width:400px;
+padding:20px;
+border-radius:10px;
+text-align:center
+}
+button{
+width:90%;
+padding:10px;
+margin:6px;
+background:#667eea;
+color:white;
+border:0;
+border-radius:5px;
+cursor:pointer
+}
+button:hover{
+background:#333
+}
+#timer{
+color:red
+}
+#result{
+color:green
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h1>Quiz Game</h1>
+<p id="timer">Time:15</p>
+<h3 id="question"></h3>
+<div id="answers"></div>
+<button onclick="next()">Next</button>
+<h3 id="result"></h3>
+<button id="restart" onclick="restart()" style="display:none">Restart</button>
+</div>
+
+<script>
+
+let q=[
+["HTML stands for?",["Hyper Text Markup Language","High Text"],"Hyper Text Markup Language"],
+["CSS is used for?",["Styling","Database"],"Styling"],
+["JavaScript is used for?",["Interaction","Storage"],"Interaction"],
+["Image tag is?",["<img>","<p>"],"<img>"]
+];
+
+let i=0,s=0,t=15,timer;
+
+function load(){
+clearInterval(timer);
+t=15;
+
+timer=setInterval(()=>{
+t--;
+document.getElementById("timer").innerHTML="Time:"+t;
+if(t==0)next();
+},1000);
+
+question.innerHTML=q[i][0];
+answers.innerHTML="";
+
+q[i][1].forEach(x=>{
+answers.innerHTML+=
+`<button onclick="check(this)">${x}</button>`;
+});
+}
+
+function check(b){
+if(b.innerHTML==q[i][2])s++;
+
+document.querySelectorAll("#answers button")
+.forEach(x=>x.disabled=true);
+}
+
+function next(){
+clearInterval(timer);
+i++;
+
+if(i<q.length){
+load();
+}
+else{
+question.innerHTML="Completed";
+answers.innerHTML="";
+result.innerHTML=
+"Score:"+s+"/"+q.length;
+restart.style.display="block";
+}
+}
+
+function restart(){
+i=0;
+s=0;
+result.innerHTML="";
+restart.style.display="none";
+load();
+}
+
+load();
+
+</script>
+
+</body>
+</html>
